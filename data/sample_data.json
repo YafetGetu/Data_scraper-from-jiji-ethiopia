@@ -1,20 +1,26 @@
 [
   {
     "title": "Xiaomi Redmi K40 256 GB White",
-    "price": "ETB 24,500",
-    "scraped_at": "2025-12-28T12:56:39.373541",
-    "source": "Jiji Ethiopia"
+    "price_text": "ETB 24,500",
+    "price_birr": null,
+    "scraped_at": "2025-12-28T15:21:26.888899",
+    "source": "Jiji Ethiopia",
+    "page": 1
   },
   {
     "title": "Samsung Galaxy S10 512 GB",
-    "price": "ETB 22,500",
-    "scraped_at": "2025-12-28T12:56:39.373541",
-    "source": "Jiji Ethiopia"
+    "price_text": "ETB 22,500",
+    "price_birr": null,
+    "scraped_at": "2025-12-28T15:21:26.888899",
+    "source": "Jiji Ethiopia",
+    "page": 1
   },
   {
     "title": "Tecno Spark 10 5G 256 GB Black",
-    "price": "ETB 15,000",
-    "scraped_at": "2025-12-28T12:56:39.373541",
-    "source": "Jiji Ethiopia"
+    "price_text": "ETB 15,000",
+    "price_birr": null,
+    "scraped_at": "2025-12-28T15:21:26.888899",
+    "source": "Jiji Ethiopia",
+    "page": 1
   }
 ]

@@ -4,28 +4,59 @@ import csv
 import json
 from datetime import datetime
 import os
+import time
 
 # Base directory (where wc.py is located)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Data directory inside project
+# Data directory
 DATA_DIR = os.path.join(BASE_DIR, "data")
-
-# Create data folder if it doesn't exist
 os.makedirs(DATA_DIR, exist_ok=True)
 
-def scrape_jiji_listings():
-    url = "https://jiji.com.et/"
+# Scraper settings
+REQUEST_DELAY = 2      # seconds
+MAX_RETRIES = 3
+TIMEOUT = 10
+PAGES_TO_SCRAPE = 3    # number of pages
 
-    headers = {
-        "User-Agent": "Mozilla/5.0"
-    }
+HEADERS = {
+    "User-Agent": "Mozilla/5.0"
+}
 
+def fetch_page(url):
+    """Fetch page with retry logic"""
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            response = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
+            response.raise_for_status()
+            return response.text
+        except Exception as e:
+            print(f"Attempt {attempt} failed: {e}")
+            time.sleep(REQUEST_DELAY)
+    return None
+
+def parse_price(price_text):
+    """Convert '45,000 Birr' -> 45000"""
     try:
-        response = requests.get(url, headers=headers, timeout=10)
-        response.raise_for_status()
+        return float(price_text.replace("Birr", "").replace(",", "").strip())
+    except:
+        return None
 
-        soup = BeautifulSoup(response.content, "lxml")
+def scrape_jiji_listings():
+    all_data = []
+
+    print("\nStarting scraping...")
+    print("-" * 50)
+
+    for page in range(1, PAGES_TO_SCRAPE + 1):
+        url = f"https://jiji.com.et/?page={page}"
+        print(f"Scraping page {page}")
+
+        html = fetch_page(url)
+        if not html:
+            continue
+
+        soup = BeautifulSoup(html, "lxml")
 
         titles = soup.find_all(
             "div",
@@ -33,27 +64,25 @@ def scrape_jiji_listings():
         )
         prices = soup.find_all("div", class_="qa-advert-price")
 
-        data = []
-
-        print("\nScraping Jiji listings")
-        print("-" * 50)
-
         for t, p in zip(titles, prices):
+            price_text = p.text.strip()
+
             item = {
                 "title": t.text.strip(),
-                "price": p.text.strip(),
+                "price_text": price_text,
+                "price_birr": parse_price(price_text),
                 "scraped_at": datetime.now().isoformat(),
-                "source": "Jiji Ethiopia"
+                "source": "Jiji Ethiopia",
+                "page": page
             }
-            data.append(item)
-            print(f"{item['title']} - {item['price']}")
 
-        save_data(data)
-        return data
+            all_data.append(item)
+            print(f"{item['title']} - {item['price_text']}")
 
-    except Exception as e:
-        print("Error:", e)
-        return []
+        time.sleep(REQUEST_DELAY)
+
+    save_data(all_data)
+    return all_data
 
 def save_data(data):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -62,18 +91,15 @@ def save_data(data):
     csv_file = os.path.join(DATA_DIR, f"jiji_data_{timestamp}.csv")
     log_file = os.path.join(DATA_DIR, "daily_scraping_log.txt")
 
-    # Save JSON
     with open(json_file, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-    # Save CSV
     if data:
         with open(csv_file, "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=data[0].keys())
             writer.writeheader()
             writer.writerows(data)
 
-    # Append log
     with open(log_file, "a", encoding="utf-8") as f:
         f.write(f"{timestamp} - Scraped {len(data)} items\n")
 
@@ -87,20 +113,18 @@ def create_sample_files(data):
 
     sample = data[:3]
 
-    sample_json = os.path.join(DATA_DIR, "sample_data.json")
-    sample_csv = os.path.join(DATA_DIR, "sample_data.csv")
-
-    with open(sample_json, "w", encoding="utf-8") as f:
+    with open(os.path.join(DATA_DIR, "sample_data.json"), "w", encoding="utf-8") as f:
         json.dump(sample, f, ensure_ascii=False, indent=2)
 
-    with open(sample_csv, "w", newline="", encoding="utf-8") as f:
+    with open(os.path.join(DATA_DIR, "sample_data.csv"), "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=data[0].keys())
         writer.writeheader()
         writer.writerows(sample)
 
 def main():
-    print("Starting Jiji Web Scraper")
+    print("Jiji Web Scraper")
     print(f"Output folder: {DATA_DIR}")
+    print(f"Pages to scrape: {PAGES_TO_SCRAPE}")
     scrape_jiji_listings()
     print("Scraping completed")
 
