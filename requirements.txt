@@ -1,0 +1,6 @@
+# In PowerShell, run:
+@"
+requests==2.31.0
+beautifulsoup4==4.12.2
+lxml==4.9.3
+"@ | Out-File -FilePath "requirements.txt" -Encoding UTF8
