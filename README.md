@@ -1,4 +1,4 @@
-# Jiji Ethiopia Web Scraper
+# Jiji Ethiopia Web Scraper for item price estimation and prediction
 
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![BeautifulSoup](https://img.shields.io/badge/BeautifulSoup-4-green.svg)
