@@ -1,0 +1,20 @@
+{
+  "search_query": "iphone 11",
+  "generated_at": "2026-01-01T14:33:40.280021",
+  "buying": {
+    "good_price_range": "38,066.62 - 55,751.56",
+    "bargain_price": "Below 38,066.62",
+    "high_price": "Above 55,751.56",
+    "fair_price": "Around 53,000.00",
+    "recommendation": "Look for items within 1 standard deviation of average"
+  },
+  "selling": {
+    "competitive_price": "53,000.00 - 55,751.56",
+    "premium_possible": "If condition is excellent and location is prime",
+    "quick_sale_price": "Around 42,487.85",
+    "recommendation": "Price competitively based on condition and location"
+  },
+  "condition_insights": {
+    "New": "Rare, can command premium price"
+  }
+}

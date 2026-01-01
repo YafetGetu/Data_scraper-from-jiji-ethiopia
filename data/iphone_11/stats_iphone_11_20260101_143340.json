@@ -1,0 +1,63 @@
+{
+  "search_query": "iphone 11",
+  "total_items": 120,
+  "items_with_price": 44,
+  "scraped_at": "2026-01-01T14:33:40.277940",
+  "average_price": 46909.09,
+  "median_price": 53000.0,
+  "min_price": 35500.0,
+  "max_price": 55000.0,
+  "price_range": 19500.0,
+  "std_dev": 8842.47,
+  "variance": 78189217.76,
+  "q1": 36000.0,
+  "q3": 53500.0,
+  "iqr": 17500.0,
+  "price_distribution": {
+    "50,000 - 100,000": 27,
+    "10,000 - 50,000": 17
+  },
+  "condition_distribution": {
+    "New": 14,
+    "Unknown": 106
+  },
+  "top_locations": {
+    "Location not specified": 80,
+    "Addis Ababa, Bole": 29,
+    "Addis Ababa, Gullele": 11
+  },
+  "category_analysis": {
+    "Mobile Phones": {
+      "count": 39,
+      "avg_price": 46650.0,
+      "min_price": 35500.0,
+      "max_price": 55000.0
+    },
+    "Other": {
+      "count": 81,
+      "avg_price": 47464.29,
+      "min_price": 35500.0,
+      "max_price": 55000.0
+    }
+  },
+  "price_by_location": {
+    "Addis Ababa, Bole": {
+      "count": 19,
+      "avg_price": 50052.63,
+      "min_price": 35500.0,
+      "max_price": 55000.0
+    },
+    "Location not specified": {
+      "count": 19,
+      "avg_price": 47210.53,
+      "min_price": 35500.0,
+      "max_price": 55000.0
+    },
+    "Addis Ababa, Gullele": {
+      "count": 6,
+      "avg_price": 36000.0,
+      "min_price": 36000.0,
+      "max_price": 36000.0
+    }
+  }
+}

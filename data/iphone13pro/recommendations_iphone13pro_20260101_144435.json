@@ -1,0 +1,20 @@
+{
+  "search_query": "iphone13pro",
+  "generated_at": "2026-01-01T14:44:35.548109",
+  "buying": {
+    "good_price_range": "84,246.00 - 98,027.84",
+    "bargain_price": "Below 84,246.00",
+    "high_price": "Above 98,027.84",
+    "fair_price": "Around 94,999.00",
+    "recommendation": "Look for items within 1 standard deviation of average"
+  },
+  "selling": {
+    "competitive_price": "94,999.00 - 98,027.84",
+    "premium_possible": "If condition is excellent and location is prime",
+    "quick_sale_price": "Around 87,691.46",
+    "recommendation": "Price competitively based on condition and location"
+  },
+  "condition_insights": {
+    "New": "Rare, can command premium price"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "search_query": "iphone 13 pro max",
+  "total_items": 120,
+  "items_with_price": 51,
+  "scraped_at": "2026-01-01T14:43:11.851442",
+  "average_price": 92470.37,
+  "median_price": 93000.0,
+  "min_price": 86500.0,
+  "max_price": 96000.0,
+  "price_range": 9500.0,
+  "std_dev": 2950.38,
+  "variance": 8704764.88,
+  "q1": 90999.0,
+  "q3": 95000.0,
+  "iqr": 4001.0,
+  "price_distribution": {
+    "50,000 - 100,000": 51
+  },
+  "condition_distribution": {
+    "Unknown": 110,
+    "New": 10
+  },
+  "top_locations": {
+    "Location not specified": 78,
+    "Addis Ababa, Bole": 31,
+    "Addis Ababa, Akaky Kaliti": 11
+  },
+  "category_analysis": {
+    "Mobile Phones": {
+      "count": 42,
+      "avg_price": 92211.91,
+      "min_price": 86500.0,
+      "max_price": 96000.0
+    },
+    "Other": {
+      "count": 78,
+      "avg_price": 92944.22,
+      "min_price": 86500.0,
+      "max_price": 96000.0
+    }
+  },
+  "price_by_location": {
+    "Location not specified": {
+      "count": 24,
+      "avg_price": 92687.29,
+      "min_price": 86500.0,
+      "max_price": 96000.0
+    },
+    "Addis Ababa, Bole": {
+      "count": 21,
+      "avg_price": 92071.14,
+      "min_price": 86500.0,
+      "max_price": 96000.0
+    },
+    "Addis Ababa, Akaky Kaliti": {
+      "count": 6,
+      "avg_price": 93000.0,
+      "min_price": 93000.0,
+      "max_price": 93000.0
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "search_query": "raspberry pi",
+  "total_items": 80,
+  "items_with_price": 33,
+  "scraped_at": "2026-01-01T14:36:34.843362",
+  "average_price": 16534.85,
+  "median_price": 25000.0,
+  "min_price": 1150.0,
+  "max_price": 25500.0,
+  "price_range": 24350.0,
+  "std_dev": 11269.16,
+  "variance": 126993982.01,
+  "q1": 1150.0,
+  "q3": 25500.0,
+  "iqr": 24350.0,
+  "price_distribution": {
+    "10,000 - 50,000": 22,
+    "1,000 - 5,000": 11
+  },
+  "condition_distribution": {
+    "Unknown": 80
+  },
+  "top_locations": {
+    "Location not specified": 52,
+    "Addis Ababa, Bole": 14,
+    "Addis Ababa, Arada": 11,
+    "Addis Ababa, Yeka": 3
+  },
+  "category_analysis": {
+    "Other": {
+      "count": 80,
+      "avg_price": 16534.85,
+      "min_price": 1150.0,
+      "max_price": 25500.0
+    }
+  },
+  "price_by_location": {
+    "Location not specified": {
+      "count": 15,
+      "avg_price": 17216.67,
+      "min_price": 1150.0,
+      "max_price": 25500.0
+    },
+    "Addis Ababa, Bole": {
+      "count": 9,
+      "avg_price": 22833.33,
+      "min_price": 17500.0,
+      "max_price": 25500.0
+    },
+    "Addis Ababa, Arada": {
+      "count": 6,
+      "avg_price": 1150.0,
+      "min_price": 1150.0,
+      "max_price": 1150.0
+    },
+    "Addis Ababa, Yeka": {
+      "count": 3,
+      "avg_price": 25000.0,
+      "min_price": 25000.0,
+      "max_price": 25000.0
+    }
+  }
+}

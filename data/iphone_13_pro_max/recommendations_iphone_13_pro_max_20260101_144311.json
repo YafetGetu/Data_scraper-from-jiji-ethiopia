@@ -1,0 +1,20 @@
+{
+  "search_query": "iphone 13 pro max",
+  "generated_at": "2026-01-01T14:43:11.854486",
+  "buying": {
+    "good_price_range": "89,519.99 - 95,420.75",
+    "bargain_price": "Below 89,519.99",
+    "high_price": "Above 95,420.75",
+    "fair_price": "Around 93,000.00",
+    "recommendation": "Look for items within 1 standard deviation of average"
+  },
+  "selling": {
+    "competitive_price": "93,000.00 - 95,420.75",
+    "premium_possible": "If condition is excellent and location is prime",
+    "quick_sale_price": "Around 90,995.18",
+    "recommendation": "Price competitively based on condition and location"
+  },
+  "condition_insights": {
+    "New": "Rare, can command premium price"
+  }
+}

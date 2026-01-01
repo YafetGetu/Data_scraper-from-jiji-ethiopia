@@ -1,0 +1,55 @@
+{
+  "search_query": "iphone13pro",
+  "total_items": 120,
+  "items_with_price": 51,
+  "scraped_at": "2026-01-01T14:44:35.546074",
+  "average_price": 91136.92,
+  "median_price": 94999.0,
+  "min_price": 79999.0,
+  "max_price": 99000.0,
+  "price_range": 19001.0,
+  "std_dev": 6890.92,
+  "variance": 47484757.87,
+  "q1": 88000.0,
+  "q3": 95000.0,
+  "iqr": 7000.0,
+  "price_distribution": {
+    "50,000 - 100,000": 51
+  },
+  "condition_distribution": {
+    "Unknown": 110,
+    "New": 10
+  },
+  "top_locations": {
+    "Location not specified": 78,
+    "Addis Ababa, Bole": 42
+  },
+  "category_analysis": {
+    "Mobile Phones": {
+      "count": 42,
+      "avg_price": 91090.58,
+      "min_price": 79999.0,
+      "max_price": 99000.0
+    },
+    "Other": {
+      "count": 78,
+      "avg_price": 91221.89,
+      "min_price": 79999.0,
+      "max_price": 99000.0
+    }
+  },
+  "price_by_location": {
+    "Addis Ababa, Bole": {
+      "count": 27,
+      "avg_price": 91110.78,
+      "min_price": 79999.0,
+      "max_price": 99000.0
+    },
+    "Location not specified": {
+      "count": 24,
+      "avg_price": 91166.33,
+      "min_price": 79999.0,
+      "max_price": 99000.0
+    }
+  }
+}

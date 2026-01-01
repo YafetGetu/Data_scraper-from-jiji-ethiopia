@@ -1,0 +1,17 @@
+{
+  "search_query": "raspberry pi",
+  "generated_at": "2026-01-01T14:36:34.844358",
+  "buying": {
+    "good_price_range": "5,265.69 - 27,804.01",
+    "bargain_price": "Below 5,265.69",
+    "high_price": "Above 27,804.01",
+    "fair_price": "Around 25,000.00",
+    "recommendation": "Look for items within 1 standard deviation of average"
+  },
+  "selling": {
+    "competitive_price": "25,000.00 - 27,804.01",
+    "premium_possible": "If condition is excellent and location is prime",
+    "quick_sale_price": "Around 10,900.27",
+    "recommendation": "Price competitively based on condition and location"
+  }
+}
