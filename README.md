@@ -27,7 +27,7 @@ This project is actively developed with regular improvements to strengthen my po
 | Week | Focus | Key Features |
 |-----|------|-------------|
 | Week 1 | Foundation | Basic scraping, error handling, file export |
-| Week 2 | Advanced | Database integration, pagination, async scraping |
+| Week 2 | Advanced | Database integration, pagination, async scraping prediction and others|
 | Week 3 | Professional | API, Docker, CI/CD, documentation |
 | Week 4 | Scalability | Distributed scraping, ML, cloud deployment |
 
