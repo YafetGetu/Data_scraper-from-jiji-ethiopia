@@ -1,4 +1,4 @@
-title,price_text,price_birr,scraped_at,source,page
-Xiaomi Redmi K40 256 GB White,"ETB 24,500",,2025-12-28T15:21:26.888899,Jiji Ethiopia,1
-Samsung Galaxy S10 512 GB,"ETB 22,500",,2025-12-28T15:21:26.888899,Jiji Ethiopia,1
-Tecno Spark 10 5G 256 GB Black,"ETB 15,000",,2025-12-28T15:21:26.888899,Jiji Ethiopia,1
+id,title,price_text,price_birr,category,scraped_at,source,page,item_number
+1,Xiaomi Redmi K40 256 GB White,"ETB 24,500",24500.0,Other,2026-01-01T13:47:57.748692,Jiji Ethiopia,1,1
+2,New Samsung Galaxy S10 5G 256 GB Purple,"ETB 26,500",26500.0,Electronics,2026-01-01T13:47:57.749076,Jiji Ethiopia,1,2
+3,OnePlus 11 256 GB Black,"ETB 54,500",54500.0,Other,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,3

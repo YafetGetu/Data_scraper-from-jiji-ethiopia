@@ -1,26 +1,35 @@
 [
   {
+    "id": 1,
     "title": "Xiaomi Redmi K40 256 GB White",
     "price_text": "ETB 24,500",
-    "price_birr": null,
-    "scraped_at": "2025-12-28T15:21:26.888899",
+    "price_birr": 24500.0,
+    "category": "Other",
+    "scraped_at": "2026-01-01T13:47:57.748692",
     "source": "Jiji Ethiopia",
-    "page": 1
+    "page": 1,
+    "item_number": 1
   },
   {
-    "title": "Samsung Galaxy S10 512 GB",
-    "price_text": "ETB 22,500",
-    "price_birr": null,
-    "scraped_at": "2025-12-28T15:21:26.888899",
+    "id": 2,
+    "title": "New Samsung Galaxy S10 5G 256 GB Purple",
+    "price_text": "ETB 26,500",
+    "price_birr": 26500.0,
+    "category": "Electronics",
+    "scraped_at": "2026-01-01T13:47:57.749076",
     "source": "Jiji Ethiopia",
-    "page": 1
+    "page": 1,
+    "item_number": 2
   },
   {
-    "title": "Tecno Spark 10 5G 256 GB Black",
-    "price_text": "ETB 15,000",
-    "price_birr": null,
-    "scraped_at": "2025-12-28T15:21:26.888899",
+    "id": 3,
+    "title": "OnePlus 11 256 GB Black",
+    "price_text": "ETB 54,500",
+    "price_birr": 54500.0,
+    "category": "Other",
+    "scraped_at": "2026-01-01T13:47:57.749292",
     "source": "Jiji Ethiopia",
-    "page": 1
+    "page": 1,
+    "item_number": 3
   }
 ]

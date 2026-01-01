@@ -1,0 +1,73 @@
+id,title,price_text,price_birr,category,scraped_at,source,page,item_number
+1,Xiaomi Redmi K40 256 GB White,"ETB 24,500",24500.0,Other,2026-01-01T13:47:57.748692,Jiji Ethiopia,1,1
+2,New Samsung Galaxy S10 5G 256 GB Purple,"ETB 26,500",26500.0,Electronics,2026-01-01T13:47:57.749076,Jiji Ethiopia,1,2
+3,OnePlus 11 256 GB Black,"ETB 54,500",54500.0,Other,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,3
+4,Toyota Aygo 2020 Red,"ETB 1,200,000",1200000.0,Vehicles,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,4
+5,Toyota RAV4 2010 Gold,"ETB 2,000,000",2000000.0,Vehicles,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,5
+6,New Laptop Asus VivoBook 15 X505BA 16GB Intel Core I5 SSD 512GB,"ETB 39,000",39000.0,Electronics,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,6
+7,Realme GT Neo 5 256 GB White,"ETB 55,000",55000.0,Other,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,7
+8,New Samsung Galaxy S21+ 5G 128 GB,"ETB 33,999",33999.0,Electronics,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,8
+9,New Avatr 12 2025 White,"ETB 13,000,000",13000000.0,Other,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,9
+10,Suzuki Dzire 2022 Silver,"ETB 2,950,000",2950000.0,Other,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,10
+11,Toyota Sequoia 2023 Gold,"ETB 7,000,000",7000000.0,Vehicles,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,11
+12,New Laptop Lenovo Ideapad 3 8GB Intel Core I5 SSD 256GB,"ETB 25,000",25000.0,Electronics,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,12
+13,Samsung Galaxy S10 512 GB,"ETB 22,500",22500.0,Electronics,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,13
+14,New Samsung Galaxy S21 Ultra 5G 256 GB Black,"ETB 54,000",54000.0,Electronics,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,14
+15,Hyundai Bayon 2021 Silver,"ETB 3,650,000",3650000.0,Other,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,15
+16,Toyota FJ Cruiser 2008 Brown,"ETB 5,000,000",5000000.0,Vehicles,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,16
+17,New Server 16GB HDD 512GB,"ETB 15,000",15000.0,Other,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,17
+18,New Laptop HP Stream Notebook 16GB Intel Core I7 SSD 1T,"ETB 284,400",284400.0,Electronics,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,18
+19,Oppo Reno 5 128 GB Black,"ETB 16,500",16500.0,Other,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,19
+20,Tecno Spark 10 5G 256 GB Black,"ETB 15,000",15000.0,Other,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,20
+21,Toyota 4-Runner 1999 White,"ETB 1,850,000",1850000.0,Vehicles,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,21
+22,New Porsche Taycan Cross Turismo Turbo Cross Turismo AWD 2025 Black,"ETB 35,000,000",35000000.0,Other,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,22
+23,New Laptop HP EliteBook 840 G5 16GB Intel Core I5 SSD 512GB,"ETB 53,500",53500.0,Electronics,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,23
+24,New Server HP ProLiant ML 16GB Intel Xeon SSD 1T,"ETB 200,000",200000.0,Other,2026-01-01T13:47:57.749292,Jiji Ethiopia,1,24
+25,Xiaomi Redmi K40 256 GB White,"ETB 24,500",24500.0,Other,2026-01-01T13:48:00.521315,Jiji Ethiopia,2,1
+26,New Samsung Galaxy S10 5G 256 GB Purple,"ETB 26,500",26500.0,Electronics,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,2
+27,OnePlus 11 256 GB Black,"ETB 54,500",54500.0,Other,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,3
+28,Toyota Aygo 2020 Red,"ETB 1,200,000",1200000.0,Vehicles,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,4
+29,Toyota RAV4 2010 Gold,"ETB 2,000,000",2000000.0,Vehicles,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,5
+30,New Laptop Asus VivoBook 15 X505BA 16GB Intel Core I5 SSD 512GB,"ETB 39,000",39000.0,Electronics,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,6
+31,Realme GT Neo 5 256 GB White,"ETB 55,000",55000.0,Other,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,7
+32,New Samsung Galaxy S21+ 5G 128 GB,"ETB 33,999",33999.0,Electronics,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,8
+33,New Avatr 12 2025 White,"ETB 13,000,000",13000000.0,Other,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,9
+34,Suzuki Dzire 2022 Silver,"ETB 2,950,000",2950000.0,Other,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,10
+35,Toyota Sequoia 2023 Gold,"ETB 7,000,000",7000000.0,Vehicles,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,11
+36,New Laptop Lenovo Ideapad 3 8GB Intel Core I5 SSD 256GB,"ETB 25,000",25000.0,Electronics,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,12
+37,Samsung Galaxy S10 512 GB,"ETB 22,500",22500.0,Electronics,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,13
+38,New Samsung Galaxy S21 Ultra 5G 256 GB Black,"ETB 54,000",54000.0,Electronics,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,14
+39,Hyundai Bayon 2021 Silver,"ETB 3,650,000",3650000.0,Other,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,15
+40,Toyota FJ Cruiser 2008 Brown,"ETB 5,000,000",5000000.0,Vehicles,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,16
+41,New Server 16GB HDD 512GB,"ETB 15,000",15000.0,Other,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,17
+42,New Laptop HP Stream Notebook 16GB Intel Core I7 SSD 1T,"ETB 284,400",284400.0,Electronics,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,18
+43,Oppo Reno 5 128 GB Black,"ETB 16,500",16500.0,Other,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,19
+44,Tecno Spark 10 5G 256 GB Black,"ETB 15,000",15000.0,Other,2026-01-01T13:48:00.521827,Jiji Ethiopia,2,20
+45,Toyota 4-Runner 1999 White,"ETB 1,850,000",1850000.0,Vehicles,2026-01-01T13:48:00.523027,Jiji Ethiopia,2,21
+46,New Porsche Taycan Cross Turismo Turbo Cross Turismo AWD 2025 Black,"ETB 35,000,000",35000000.0,Other,2026-01-01T13:48:00.523027,Jiji Ethiopia,2,22
+47,New Laptop HP EliteBook 840 G5 16GB Intel Core I5 SSD 512GB,"ETB 53,500",53500.0,Electronics,2026-01-01T13:48:00.523027,Jiji Ethiopia,2,23
+48,New Server HP ProLiant ML 16GB Intel Xeon SSD 1T,"ETB 200,000",200000.0,Other,2026-01-01T13:48:00.523027,Jiji Ethiopia,2,24
+49,Xiaomi Redmi K40 256 GB White,"ETB 24,500",24500.0,Other,2026-01-01T13:48:03.408069,Jiji Ethiopia,3,1
+50,New Samsung Galaxy S10 5G 256 GB Purple,"ETB 26,500",26500.0,Electronics,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,2
+51,OnePlus 11 256 GB Black,"ETB 54,500",54500.0,Other,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,3
+52,Toyota Aygo 2020 Red,"ETB 1,200,000",1200000.0,Vehicles,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,4
+53,Toyota RAV4 2010 Gold,"ETB 2,000,000",2000000.0,Vehicles,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,5
+54,New Laptop Asus VivoBook 15 X505BA 16GB Intel Core I5 SSD 512GB,"ETB 39,000",39000.0,Electronics,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,6
+55,Realme GT Neo 5 256 GB White,"ETB 55,000",55000.0,Other,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,7
+56,New Samsung Galaxy S21+ 5G 128 GB,"ETB 33,999",33999.0,Electronics,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,8
+57,New Avatr 12 2025 White,"ETB 13,000,000",13000000.0,Other,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,9
+58,Suzuki Dzire 2022 Silver,"ETB 2,950,000",2950000.0,Other,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,10
+59,Toyota Sequoia 2023 Gold,"ETB 7,000,000",7000000.0,Vehicles,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,11
+60,New Laptop Lenovo Ideapad 3 8GB Intel Core I5 SSD 256GB,"ETB 25,000",25000.0,Electronics,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,12
+61,Samsung Galaxy S10 512 GB,"ETB 22,500",22500.0,Electronics,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,13
+62,New Samsung Galaxy S21 Ultra 5G 256 GB Black,"ETB 54,000",54000.0,Electronics,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,14
+63,Hyundai Bayon 2021 Silver,"ETB 3,650,000",3650000.0,Other,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,15
+64,Toyota FJ Cruiser 2008 Brown,"ETB 5,000,000",5000000.0,Vehicles,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,16
+65,New Server 16GB HDD 512GB,"ETB 15,000",15000.0,Other,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,17
+66,New Laptop HP Stream Notebook 16GB Intel Core I7 SSD 1T,"ETB 284,400",284400.0,Electronics,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,18
+67,Oppo Reno 5 128 GB Black,"ETB 16,500",16500.0,Other,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,19
+68,Tecno Spark 10 5G 256 GB Black,"ETB 15,000",15000.0,Other,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,20
+69,Toyota 4-Runner 1999 White,"ETB 1,850,000",1850000.0,Vehicles,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,21
+70,New Porsche Taycan Cross Turismo Turbo Cross Turismo AWD 2025 Black,"ETB 35,000,000",35000000.0,Other,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,22
+71,New Laptop HP EliteBook 840 G5 16GB Intel Core I5 SSD 512GB,"ETB 53,500",53500.0,Electronics,2026-01-01T13:48:03.409034,Jiji Ethiopia,3,23
+72,New Server HP ProLiant ML 16GB Intel Xeon SSD 1T,"ETB 200,000",200000.0,Other,2026-01-01T13:48:03.410033,Jiji Ethiopia,3,24

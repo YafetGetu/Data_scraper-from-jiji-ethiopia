@@ -1,0 +1,46 @@
+
+JIJI ETHIOPIA MARKET ANALYSIS REPORT
+Generated: 2026-01-01 13:48:05
+============================================================
+
+OVERVIEW:
+- Total Items Analyzed: 72
+- Analysis Timestamp: 2026-01-01T13:48:05.459517
+
+OVERALL STATISTICS:
+----------------------------------------
+Count: 72
+Valid Prices: 72.00 ETB
+Average: 3,023,724.96 ETB
+Median: 54,750.00 ETB
+Min: 15,000.00 ETB
+Max: 35,000,000.00 ETB
+Range: 34985000.0
+Std Dev: 7353056.53
+Price Per Item: 3,023,724.96 ETB
+Q1: 26125.0
+Q3: 2237500.0
+Iqr: 2211375.0
+
+CATEGORY DISTRIBUTION:
+----------------------------------------
+Other: 33 items | Avg: 4,998,227.27 ETB
+Electronics: 24 items | Avg: 67,362.38 ETB
+Vehicles: 15 items | Avg: 3,410,000.00 ETB
+
+PRICE PREDICTIONS (Next 7 days):
+----------------------------------------
+Overall Trend: increasing
+Trend Strength: 88.6071
+Model Confidence: 0.0
+
+2026-01-02: 10,679,627.40 ETB
+2026-01-03: 18,335,277.31 ETB
+2026-01-04: 25,990,927.23 ETB
+2026-01-05: 33,646,577.15 ETB
+2026-01-06: 41,302,227.06 ETB
+2026-01-07: 48,957,876.98 ETB
+2026-01-08: 56,613,526.89 ETB
+
+============================================================
+END OF REPORT

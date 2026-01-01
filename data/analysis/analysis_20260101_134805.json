@@ -1,0 +1,117 @@
+{
+  "overall_stats": {
+    "count": 72,
+    "valid_prices": 72,
+    "average": 3023724.96,
+    "median": 54750.0,
+    "min": 15000.0,
+    "max": 35000000.0,
+    "range": 34985000.0,
+    "std_dev": 7353056.53,
+    "price_per_item": 3023724.96,
+    "q1": 26125.0,
+    "q3": 2237500.0,
+    "iqr": 2211375.0
+  },
+  "category_analysis": {
+    "Other": {
+      "count": 33,
+      "stats": {
+        "count": 33,
+        "valid_prices": 33,
+        "average": 4998227.27,
+        "median": 55000.0,
+        "min": 15000.0,
+        "max": 35000000.0,
+        "range": 34985000.0,
+        "std_dev": 10343781.12,
+        "price_per_item": 4998227.27,
+        "q1": 16500.0,
+        "q3": 3650000.0,
+        "iqr": 3633500.0
+      }
+    },
+    "Electronics": {
+      "count": 24,
+      "stats": {
+        "count": 24,
+        "valid_prices": 24,
+        "average": 67362.38,
+        "median": 36499.5,
+        "min": 22500.0,
+        "max": 284400.0,
+        "range": 261900.0,
+        "std_dev": 84599.2,
+        "price_per_item": 67362.38,
+        "q1": 26125.0,
+        "q3": 53625.0,
+        "iqr": 27500.0
+      }
+    },
+    "Vehicles": {
+      "count": 15,
+      "stats": {
+        "count": 15,
+        "valid_prices": 15,
+        "average": 3410000.0,
+        "median": 2000000.0,
+        "min": 1200000.0,
+        "max": 7000000.0,
+        "range": 5800000.0,
+        "std_dev": 2301645.37,
+        "price_per_item": 3410000.0,
+        "q1": 1850000.0,
+        "q3": 5000000.0,
+        "iqr": 3150000.0
+      }
+    }
+  },
+  "price_prediction": {
+    "predictions": [
+      {
+        "date": "2026-01-02",
+        "predicted_price": 10679627.4,
+        "confidence": 0.0
+      },
+      {
+        "date": "2026-01-03",
+        "predicted_price": 18335277.31,
+        "confidence": 0.0
+      },
+      {
+        "date": "2026-01-04",
+        "predicted_price": 25990927.23,
+        "confidence": 0.0
+      },
+      {
+        "date": "2026-01-05",
+        "predicted_price": 33646577.15,
+        "confidence": 0.0
+      },
+      {
+        "date": "2026-01-06",
+        "predicted_price": 41302227.06,
+        "confidence": 0.0
+      },
+      {
+        "date": "2026-01-07",
+        "predicted_price": 48957876.98,
+        "confidence": 0.0
+      },
+      {
+        "date": "2026-01-08",
+        "predicted_price": 56613526.89,
+        "confidence": 0.0
+      }
+    ],
+    "trend": "increasing",
+    "trend_strength": 88.6071,
+    "model_score": 0.0,
+    "data_points": 72
+  },
+  "seasonal_analysis": {
+    "error": "Insufficient monthly data"
+  },
+  "timestamp": "2026-01-01T13:48:05.459517",
+  "total_items": 72
+}
