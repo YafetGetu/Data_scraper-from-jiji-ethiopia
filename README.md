@@ -44,5 +44,5 @@ This project is actively developed with regular improvements to strengthen my po
 
 1. Clone the repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/jiji-web-scraper.git
+git clone https://github.com/YafetGetu/Data_scraper-from-jiji-ethiopia.git
 cd jiji-web-scraper
