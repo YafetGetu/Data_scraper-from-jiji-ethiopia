@@ -1,0 +1,55 @@
+{
+  "search_query": "iphone 13",
+  "total_items": 120,
+  "items_with_price": 49,
+  "scraped_at": "2026-01-09T14:53:43.450021",
+  "average_price": 80979.59,
+  "median_price": 87000.0,
+  "min_price": 62000.0,
+  "max_price": 95000.0,
+  "price_range": 33000.0,
+  "std_dev": 12363.4,
+  "variance": 152853741.5,
+  "q1": 68000.0,
+  "q3": 89000.0,
+  "iqr": 21000.0,
+  "price_distribution": {
+    "50,000 - 100,000": 49
+  },
+  "condition_distribution": {
+    "New": 10,
+    "Unknown": 110
+  },
+  "top_locations": {
+    "Location not specified": 78,
+    "Addis Ababa, Bole": 42
+  },
+  "category_analysis": {
+    "Mobile Phones": {
+      "count": 42,
+      "avg_price": 80909.09,
+      "min_price": 62000.0,
+      "max_price": 95000.0
+    },
+    "Other": {
+      "count": 78,
+      "avg_price": 81125.0,
+      "min_price": 62000.0,
+      "max_price": 95000.0
+    }
+  },
+  "price_by_location": {
+    "Addis Ababa, Bole": {
+      "count": 27,
+      "avg_price": 80777.78,
+      "min_price": 62000.0,
+      "max_price": 95000.0
+    },
+    "Location not specified": {
+      "count": 22,
+      "avg_price": 81227.27,
+      "min_price": 62000.0,
+      "max_price": 95000.0
+    }
+  }
+}
