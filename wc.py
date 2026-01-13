@@ -782,6 +782,7 @@ def display_search_summary(items, stats, search_query):
         print(f"      {price_display} | {item.get('location', 'N/A')} | {item.get('condition', 'N/A')}")
 
 # MAIN EXECUTION
+# MAIN EXECUTION
 def main():
     """Main execution function"""
     print(f"""
@@ -795,10 +796,10 @@ Scrape and analyze prices from Jiji Ethiopia search results
         print(f"\n{'='*80}")
         print("MAIN MENU")
         print(f"{'='*80}")
-        print("1.  Search for items (e.g., 'iphone 12', 'toyota yaris')")
-        print("2.  View recent searches")
-        print("3.  Export data")
-        print("4.  Exit")
+        print("1. Search for items (e.g., 'iphone 12', 'toyota yaris')")
+        print("2. View recent searches")
+        print("3. Export data")
+        print("4. Exit")
         
         choice = input("\nSelect option (1-4): ").strip()
         
@@ -807,7 +808,7 @@ Scrape and analyze prices from Jiji Ethiopia search results
             search_query = input("\nEnter search query (e.g., 'iphone 12', 'toyota yaris'): ").strip()
             
             if not search_query:
-                print(" Please enter a search query")
+                print("Please enter a search query")
                 continue
             
             # Get number of pages to scrape
@@ -818,13 +819,13 @@ Scrape and analyze prices from Jiji Ethiopia search results
             except:
                 pages = 3
             
-            print(f"\n Searching for '{search_query}' ({pages} pages)...")
+            print(f"\nSearching for '{search_query}' ({pages} pages)...")
             
             # Scrape data
             items = scrape_jiji_search(search_query, pages)
             
             if not items:
-                print(f"\n No items found for '{search_query}'")
+                print(f"\nNo items found for '{search_query}'")
                 continue
             
             # Calculate statistics
@@ -849,11 +850,11 @@ Scrape and analyze prices from Jiji Ethiopia search results
                 print(f"\n{'='*80}")
                 print(f"OPTIONS FOR '{search_query}'")
                 print(f"{'='*80}")
-                print("1.  View detailed report")
-                print("2.  View price distribution")
-                print("3.  View location analysis")
-                print("4.  New search")
-                print("5.  Back to main menu")
+                print("1. View detailed report")
+                print("2. View price distribution")
+                print("3. View location analysis")
+                print("4. New search")
+                print("5. Back to main menu")
                 
                 sub_choice = input("\nSelect option (1-5): ").strip()
                 
@@ -871,7 +872,7 @@ Scrape and analyze prices from Jiji Ethiopia search results
                 elif sub_choice == "2":
                     # Price distribution
                     if stats and 'price_distribution' in stats:
-                        print(f"\n PRICE DISTRIBUTION FOR '{search_query}':")
+                        print(f"\nPRICE DISTRIBUTION FOR '{search_query}':")
                         print(f"{'-'*40}")
                         for price_range, count in stats['price_distribution'].items():
                             percentage = (count / stats['items_with_price']) * 100
@@ -881,7 +882,7 @@ Scrape and analyze prices from Jiji Ethiopia search results
                 elif sub_choice == "3":
                     # Location analysis
                     if stats and 'top_locations' in stats:
-                        print(f"\n📍 TOP LOCATIONS FOR '{search_query}':")
+                        print(f"\nTOP LOCATIONS FOR '{search_query}':")
                         print(f"{'-'*40}")
                         for location, count in stats['top_locations'].items():
                             percentage = (count / stats['total_items']) * 100
@@ -897,31 +898,156 @@ Scrape and analyze prices from Jiji Ethiopia search results
                     print("Invalid option")
         
         elif choice == "2":
-            # View recent searches
-            print(f"\n RECENT SEARCHES IN DATA DIRECTORY:")
+            # View recent searches with reload option
+            print(f"\nRECENT SEARCHES:")
             print(f"{'='*80}")
             
             if os.path.exists(DATA_DIR):
                 subdirs = [d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d))]
                 
                 if subdirs:
-                    for subdir in subdirs[-10:]:  # Show last 10 searches
-                        subdir_path = os.path.join(DATA_DIR, subdir)
-                        files = os.listdir(subdir_path) if os.path.exists(subdir_path) else []
-                        json_files = [f for f in files if f.endswith('.json') and 'stats' not in f]
+                    print(f"Found {len(subdirs)} previous searches:\n")
+                    
+                    # Show last 10 searches
+                    recent_searches = subdirs[-10:] if len(subdirs) > 10 else subdirs
+                    
+                    for i, subdir in enumerate(recent_searches, 1):
+                        dir_path = os.path.join(DATA_DIR, subdir)
+                        json_files = []
+                        
+                        if os.path.exists(dir_path):
+                            json_files = [f for f in os.listdir(dir_path) if f.endswith('.json') and 'stats' not in f]
                         
                         if json_files:
-                            latest_file = max([os.path.join(subdir_path, f) for f in json_files], 
-                                            key=os.path.getctime)
                             try:
+                                latest_file = max([os.path.join(dir_path, f) for f in json_files], 
+                                                key=os.path.getctime)
                                 with open(latest_file, 'r', encoding='utf-8') as f:
                                     data = json.load(f)
                                     if data:
                                         item_count = len(data)
-                                        search_query = data[0].get('search_query', subdir.replace('_', ' '))
-                                        print(f"🔍 {search_query}: {item_count} items")
-                            except:
-                                print(f" {subdir.replace('_', ' ')}")
+                                        search_query_name = data[0].get('search_query', subdir.replace('_', ' '))
+                                        print(f"{i:2}. {search_query_name:<40} ({item_count} items)")
+                                    else:
+                                        print(f"{i:2}. {subdir.replace('_', ' '):<40}")
+                            except Exception as e:
+                                print(f"{i:2}. {subdir.replace('_', ' '):<40} (Error loading)")
+                        else:
+                            print(f"{i:2}. {subdir.replace('_', ' '):<40}")
+                    
+                    # Add quick reload option
+                    print(f"\n{'-'*80}")
+                    print("OPTIONS:")
+                    print("1. Enter number to reload search")
+                    print("2. Back to main menu")
+                    print(f"{'-'*80}")
+                    
+                    reload_choice = input("\nEnter option (1-2) or search number: ").strip()
+                    
+                    if reload_choice == "2":
+                        continue  # Back to main menu
+                    elif reload_choice.isdigit():
+                        idx = int(reload_choice) - 1
+                        if 0 <= idx < len(recent_searches):
+                            selected_dir = recent_searches[idx]
+                            dir_path = os.path.join(DATA_DIR, selected_dir)
+                            
+                            # Find the data file
+                            json_files = []
+                            if os.path.exists(dir_path):
+                                json_files = [f for f in os.listdir(dir_path) if f.endswith('.json') and 'stats' not in f]
+                            
+                            if json_files:
+                                latest_file = max([os.path.join(dir_path, f) for f in json_files], 
+                                                key=os.path.getctime)
+                                
+                                try:
+                                    with open(latest_file, 'r', encoding='utf-8') as f:
+                                        items = json.load(f)
+                                    
+                                    if items:
+                                        search_query_name = items[0].get('search_query', selected_dir.replace('_', ' '))
+                                        print(f"\nReloaded search: '{search_query_name}' ({len(items)} items)")
+                                        
+                                        # Calculate and display stats
+                                        stats = calculate_search_statistics(items, search_query_name)
+                                        
+                                        # Display summary
+                                        print(f"\n{'='*80}")
+                                        print(f"SUMMARY FOR '{search_query_name}'")
+                                        print(f"{'='*80}")
+                                        print(f"Total items: {stats['total_items']}")
+                                        print(f"Items with price: {stats['items_with_price']}")
+                                        print(f"Average price: ETB {stats['average_price']:,.2f}")
+                                        print(f"Minimum price: ETB {stats['min_price']:,.2f}")
+                                        print(f"Maximum price: ETB {stats['max_price']:,.2f}")
+                                        
+                                        # Ask what to do with reloaded data
+                                        print(f"\n{'-'*80}")
+                                        print("What would you like to do with this data?")
+                                        print("1. View price distribution")
+                                        print("2. View location analysis")
+                                        print("3. Export to CSV")
+                                        print("4. Back to recent searches")
+                                        
+                                        data_choice = input("\nSelect option (1-4): ").strip()
+                                        
+                                        if data_choice == "1":
+                                            # Price distribution
+                                            if stats and 'price_distribution' in stats:
+                                                print(f"\nPRICE DISTRIBUTION FOR '{search_query_name}':")
+                                                print(f"{'-'*40}")
+                                                for price_range, count in stats['price_distribution'].items():
+                                                    percentage = (count / stats['items_with_price']) * 100
+                                                    bar = "█" * int(percentage / 5)
+                                                    print(f"{price_range:20} {count:3} items | {bar} ({percentage:.1f}%)")
+                                        
+                                        elif data_choice == "2":
+                                            # Location analysis
+                                            if stats and 'top_locations' in stats:
+                                                print(f"\nTOP LOCATIONS FOR '{search_query_name}':")
+                                                print(f"{'-'*40}")
+                                                for location, count in stats['top_locations'].items():
+                                                    percentage = (count / stats['total_items']) * 100
+                                                    print(f"{location:30} {count:3} items ({percentage:.1f}%)")
+                                        
+                                        elif data_choice == "3":
+                                            # Export to CSV
+                                            try:
+                                                import pandas as pd
+                                                export_df = pd.DataFrame(items)
+                                                
+                                                # Create export directory
+                                                export_dir = os.path.join(BASE_DIR, "exports")
+                                                os.makedirs(export_dir, exist_ok=True)
+                                                
+                                                # Export file name
+                                                export_name = f"reloaded_{selected_dir}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+                                                export_path = os.path.join(export_dir, export_name)
+                                                
+                                                export_df.to_csv(export_path, index=False, encoding='utf-8')
+                                                print(f"\nData exported to: {export_path}")
+                                                print(f"Rows: {len(export_df)}, Columns: {len(export_df.columns)}")
+                                            except ImportError:
+                                                print("Pandas library required for CSV export. Install with: pip install pandas")
+                                            except Exception as e:
+                                                print(f"Error exporting data: {e}")
+                                        
+                                        elif data_choice == "4":
+                                            continue  # Go back to recent searches
+                                        else:
+                                            print("Invalid option")
+                                    else:
+                                        print("No data found in the file")
+                                except Exception as e:
+                                    print(f"Error loading file: {e}")
+                            else:
+                                print("No data files found for this search")
+                        else:
+                            print("Invalid selection")
+                    else:
+                        # If user just pressed Enter or invalid input, continue
+                        continue
                 else:
                     print("No search data found")
             else:
@@ -929,7 +1055,7 @@ Scrape and analyze prices from Jiji Ethiopia search results
         
         elif choice == "3":
             # Export data
-            print(f"\n AVAILABLE DATA FOR EXPORT:")
+            print(f"\nAVAILABLE DATA FOR EXPORT:")
             print(f"{'='*80}")
             
             if os.path.exists(DATA_DIR):
@@ -964,16 +1090,16 @@ Scrape and analyze prices from Jiji Ethiopia search results
                                 import shutil
                                 shutil.copy2(latest_csv, export_path)
                                 
-                                print(f"\n Data exported to: {export_path}")
+                                print(f"\nData exported to: {export_path}")
                                 
                                 # Show preview
                                 try:
                                     df = pd.read_csv(export_path)
-                                    print(f"   Rows: {len(df)}, Columns: {len(df.columns)}")
-                                    print(f"\n   First 5 rows:")
+                                    print(f"Rows: {len(df)}, Columns: {len(df.columns)}")
+                                    print(f"\nFirst 5 rows:")
                                     print(df.head().to_string())
                                 except Exception as e:
-                                    print(f"   Could not preview data: {e}")
+                                    print(f"Could not preview data: {e}")
                             else:
                                 print("No CSV files found in the directory")
                         else:
@@ -986,7 +1112,7 @@ Scrape and analyze prices from Jiji Ethiopia search results
                 print("Data directory not found")
         
         elif choice == "4":
-            print(f"\n Thank you for using Jiji Ethiopia Scraper!")
+            print(f"\nThank you for using Jiji Ethiopia Scraper!")
             print("Goodbye!")
             break
         
