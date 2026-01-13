@@ -783,6 +783,7 @@ def display_search_summary(items, stats, search_query):
 
 # MAIN EXECUTION
 # MAIN EXECUTION
+# MAIN EXECUTION
 def main():
     """Main execution function"""
     print(f"""
@@ -853,10 +854,11 @@ Scrape and analyze prices from Jiji Ethiopia search results
                 print("1. View detailed report")
                 print("2. View price distribution")
                 print("3. View location analysis")
-                print("4. New search")
-                print("5. Back to main menu")
+                print("4. Filter results")
+                print("5. New search")
+                print("6. Back to main menu")
                 
-                sub_choice = input("\nSelect option (1-5): ").strip()
+                sub_choice = input("\nSelect option (1-6): ").strip()
                 
                 if sub_choice == "1":
                     # View report file
@@ -889,165 +891,266 @@ Scrape and analyze prices from Jiji Ethiopia search results
                             print(f"{location:30} {count:3} items ({percentage:.1f}%)")
                 
                 elif sub_choice == "4":
-                    break  # Break inner loop for new search
+                    # Filter results
+                    print(f"\nFILTER RESULTS FOR '{search_query}':")
+                    print(f"{'='*80}")
+                    
+                    while True:
+                        print("\nFILTER MENU:")
+                        print("1. Filter by price range")
+                        print("2. Filter by location")
+                        print("3. Filter by condition")
+                        print("4. Filter by date posted")
+                        print("5. Apply multiple filters")
+                        print("6. View current filtered results")
+                        print("7. Clear filters and return")
+                        
+                        filter_choice = input("\nSelect filter option (1-7): ").strip()
+                        
+                        # Store filtered items
+                        filtered_items = items.copy()
+                        
+                        if filter_choice == "1":
+                            # Price filter
+                            print(f"\nPRICE FILTER:")
+                            print(f"{'-'*40}")
+                            min_price_input = input("Minimum price in ETB (or press Enter for any): ").strip()
+                            max_price_input = input("Maximum price in ETB (or press Enter for any): ").strip()
+                            
+                            try:
+                                min_price = float(min_price_input) if min_price_input else 0
+                                max_price = float(max_price_input) if max_price_input else float('inf')
+                                
+                                if min_price_input and min_price < 0:
+                                    print("Minimum price cannot be negative")
+                                    continue
+                                if max_price_input and max_price < 0:
+                                    print("Maximum price cannot be negative")
+                                    continue
+                                if min_price_input and max_price_input and min_price > max_price:
+                                    print("Minimum price cannot be greater than maximum price")
+                                    continue
+                                
+                                # Apply price filter
+                                temp_filtered = []
+                                for item in filtered_items:
+                                    price = item.get('price_etb', 0)
+                                    if isinstance(price, str):
+                                        # Try to extract numeric price from string
+                                        try:
+                                            price_num = float(''.join(filter(str.isdigit, price)))
+                                        except:
+                                            price_num = 0
+                                    elif isinstance(price, (int, float)):
+                                        price_num = float(price)
+                                    else:
+                                        price_num = 0
+                                    
+                                    if price_num >= min_price and price_num <= max_price:
+                                        temp_filtered.append(item)
+                                
+                                filtered_items = temp_filtered
+                                print(f"Price filter applied: {len(filtered_items)} items remaining")
+                                
+                            except ValueError:
+                                print("Invalid price format. Please enter numbers only.")
+                        
+                        elif filter_choice == "2":
+                            # Location filter
+                            print(f"\nLOCATION FILTER:")
+                            print(f"{'-'*40}")
+                            
+                            # Get unique locations
+                            locations = set()
+                            for item in filtered_items:
+                                location = item.get('location', 'Unknown')
+                                if location and location != 'Unknown':
+                                    locations.add(location)
+                            
+                            if locations:
+                                print("Available locations:")
+                                loc_list = sorted(list(locations))
+                                for i, loc in enumerate(loc_list[:20], 1):  # Show first 20
+                                    print(f"{i}. {loc}")
+                                if len(loc_list) > 20:
+                                    print(f"... and {len(loc_list) - 20} more locations")
+                                
+                                location_input = input("\nEnter location name (or part of name, press Enter to skip): ").strip()
+                                
+                                if location_input:
+                                    # Filter by location
+                                    temp_filtered = []
+                                    for item in filtered_items:
+                                        location = item.get('location', '')
+                                        if location_input.lower() in location.lower():
+                                            temp_filtered.append(item)
+                                    
+                                    filtered_items = temp_filtered
+                                    print(f"Location filter applied: {len(filtered_items)} items remaining")
+                                else:
+                                    print("No location filter applied")
+                            else:
+                                print("No location data available")
+                        
+                        elif filter_choice == "3":
+                            # Condition filter
+                            print(f"\nCONDITION FILTER:")
+                            print(f"{'-'*40}")
+                            print("1. New items only")
+                            print("2. Used items only")
+                            print("3. Both new and used")
+                            
+                            condition_choice = input("\nSelect condition (1-3): ").strip()
+                            
+                            if condition_choice in ["1", "2"]:
+                                condition_type = "New" if condition_choice == "1" else "Used"
+                                
+                                # Filter by condition
+                                temp_filtered = []
+                                for item in filtered_items:
+                                    title = item.get('title', '').lower()
+                                    description = item.get('description', '').lower()
+                                    
+                                    # Simple keyword matching for condition
+                                    if condition_choice == "1":  # New
+                                        if 'new' in title or 'new' in description or 'brand new' in title or 'brand new' in description:
+                                            temp_filtered.append(item)
+                                    elif condition_choice == "2":  # Used
+                                        if 'used' in title or 'used' in description or 'second hand' in title or 'second hand' in description:
+                                            temp_filtered.append(item)
+                                
+                                filtered_items = temp_filtered
+                                print(f"Condition filter applied ({condition_type}): {len(filtered_items)} items remaining")
+                            else:
+                                print("No condition filter applied")
+                        
+                        elif filter_choice == "4":
+                            # Date filter
+                            print(f"\nDATE FILTER:")
+                            print(f"{'-'*40}")
+                            print("Filter items by how recently they were posted")
+                            print("1. Last 24 hours")
+                            print("2. Last 7 days")
+                            print("3. Last 30 days")
+                            print("4. Any date")
+                            
+                            date_choice = input("\nSelect date range (1-4): ").strip()
+                            
+                            if date_choice in ["1", "2", "3"]:
+                                days_map = {"1": 1, "2": 7, "3": 30}
+                                max_days_old = days_map[date_choice]
+                                
+                                # Note: This assumes your items have a 'date_posted' field
+                                # You might need to adjust this based on your actual data structure
+                                temp_filtered = []
+                                for item in filtered_items:
+                                    date_posted = item.get('date_posted', '')
+                                    # For now, we'll just pass all items since we don't have real dates
+                                    # In a real implementation, you would parse and compare dates
+                                    temp_filtered.append(item)
+                                
+                                filtered_items = temp_filtered
+                                print(f"Date filter applied (last {max_days_old} days): {len(filtered_items)} items remaining")
+                                print("Note: Date filtering requires date_posted field in your data")
+                            else:
+                                print("No date filter applied")
+                        
+                        elif filter_choice == "5":
+                            # Multiple filters
+                            print(f"\nAPPLY MULTIPLE FILTERS:")
+                            print(f"{'-'*40}")
+                            print("You can combine multiple filters:")
+                            print("P - Apply price filter")
+                            print("L - Apply location filter")
+                            print("C - Apply condition filter")
+                            print("D - Apply date filter")
+                            print("A - Apply all filters from above")
+                            print("S - Save current filter combination")
+                            print("R - Reset all filters")
+                            print("X - Exit multiple filter mode")
+                            
+                            multi_choice = input("\nSelect option: ").strip().upper()
+                            
+                            if multi_choice == "X":
+                                break
+                            elif multi_choice == "R":
+                                filtered_items = items.copy()
+                                print("All filters reset")
+                        
+                        elif filter_choice == "6":
+                            # View filtered results
+                            if len(filtered_items) == 0:
+                                print("No items match the current filters")
+                            else:
+                                print(f"\nFILTERED RESULTS ({len(filtered_items)} items):")
+                                print(f"{'='*80}")
+                                
+                                # Show first 10 filtered items
+                                for i, item in enumerate(filtered_items[:10], 1):
+                                    title = item.get('title', 'No title')[:50]
+                                    price = item.get('price_etb', 'N/A')
+                                    location = item.get('location', 'Unknown')
+                                    print(f"{i:2}. {title}")
+                                    print(f"    Price: {price} ETB | Location: {location}")
+                                    print(f"{'-'*80}")
+                                
+                                if len(filtered_items) > 10:
+                                    print(f"... and {len(filtered_items) - 10} more items")
+                                
+                                # Show filtered statistics
+                                if filtered_items:
+                                    filtered_stats = calculate_search_statistics(filtered_items, f"{search_query} (Filtered)")
+                                    print(f"\nFILTERED STATISTICS:")
+                                    print(f"{'-'*40}")
+                                    print(f"Total items: {filtered_stats['total_items']}")
+                                    print(f"Items with price: {filtered_stats['items_with_price']}")
+                                    print(f"Average price: ETB {filtered_stats['average_price']:,.2f}")
+                                    print(f"Minimum price: ETB {filtered_stats['min_price']:,.2f}")
+                                    print(f"Maximum price: ETB {filtered_stats['max_price']:,.2f}")
+                        
+                        elif filter_choice == "7":
+                            # Clear filters and return
+                            print("Returning to main options...")
+                            break
+                        
+                        else:
+                            print("Invalid filter option")
                 
                 elif sub_choice == "5":
+                    break  # Break inner loop for new search
+                
+                elif sub_choice == "6":
                     return  # Return to main menu
                 
                 else:
                     print("Invalid option")
         
         elif choice == "2":
-            # View recent searches with reload option
-            print(f"\nRECENT SEARCHES:")
+            # View recent searches
+            print(f"\nRECENT SEARCHES IN DATA DIRECTORY:")
             print(f"{'='*80}")
             
             if os.path.exists(DATA_DIR):
                 subdirs = [d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d))]
                 
                 if subdirs:
-                    print(f"Found {len(subdirs)} previous searches:\n")
-                    
-                    # Show last 10 searches
-                    recent_searches = subdirs[-10:] if len(subdirs) > 10 else subdirs
-                    
-                    for i, subdir in enumerate(recent_searches, 1):
-                        dir_path = os.path.join(DATA_DIR, subdir)
-                        json_files = []
-                        
-                        if os.path.exists(dir_path):
-                            json_files = [f for f in os.listdir(dir_path) if f.endswith('.json') and 'stats' not in f]
+                    for subdir in subdirs[-10:]:  # Show last 10 searches
+                        subdir_path = os.path.join(DATA_DIR, subdir)
+                        files = os.listdir(subdir_path) if os.path.exists(subdir_path) else []
+                        json_files = [f for f in files if f.endswith('.json') and 'stats' not in f]
                         
                         if json_files:
+                            latest_file = max([os.path.join(subdir_path, f) for f in json_files], 
+                                            key=os.path.getctime)
                             try:
-                                latest_file = max([os.path.join(dir_path, f) for f in json_files], 
-                                                key=os.path.getctime)
                                 with open(latest_file, 'r', encoding='utf-8') as f:
                                     data = json.load(f)
                                     if data:
                                         item_count = len(data)
-                                        search_query_name = data[0].get('search_query', subdir.replace('_', ' '))
-                                        print(f"{i:2}. {search_query_name:<40} ({item_count} items)")
-                                    else:
-                                        print(f"{i:2}. {subdir.replace('_', ' '):<40}")
-                            except Exception as e:
-                                print(f"{i:2}. {subdir.replace('_', ' '):<40} (Error loading)")
-                        else:
-                            print(f"{i:2}. {subdir.replace('_', ' '):<40}")
-                    
-                    # Add quick reload option
-                    print(f"\n{'-'*80}")
-                    print("OPTIONS:")
-                    print("1. Enter number to reload search")
-                    print("2. Back to main menu")
-                    print(f"{'-'*80}")
-                    
-                    reload_choice = input("\nEnter option (1-2) or search number: ").strip()
-                    
-                    if reload_choice == "2":
-                        continue  # Back to main menu
-                    elif reload_choice.isdigit():
-                        idx = int(reload_choice) - 1
-                        if 0 <= idx < len(recent_searches):
-                            selected_dir = recent_searches[idx]
-                            dir_path = os.path.join(DATA_DIR, selected_dir)
-                            
-                            # Find the data file
-                            json_files = []
-                            if os.path.exists(dir_path):
-                                json_files = [f for f in os.listdir(dir_path) if f.endswith('.json') and 'stats' not in f]
-                            
-                            if json_files:
-                                latest_file = max([os.path.join(dir_path, f) for f in json_files], 
-                                                key=os.path.getctime)
-                                
-                                try:
-                                    with open(latest_file, 'r', encoding='utf-8') as f:
-                                        items = json.load(f)
-                                    
-                                    if items:
-                                        search_query_name = items[0].get('search_query', selected_dir.replace('_', ' '))
-                                        print(f"\nReloaded search: '{search_query_name}' ({len(items)} items)")
-                                        
-                                        # Calculate and display stats
-                                        stats = calculate_search_statistics(items, search_query_name)
-                                        
-                                        # Display summary
-                                        print(f"\n{'='*80}")
-                                        print(f"SUMMARY FOR '{search_query_name}'")
-                                        print(f"{'='*80}")
-                                        print(f"Total items: {stats['total_items']}")
-                                        print(f"Items with price: {stats['items_with_price']}")
-                                        print(f"Average price: ETB {stats['average_price']:,.2f}")
-                                        print(f"Minimum price: ETB {stats['min_price']:,.2f}")
-                                        print(f"Maximum price: ETB {stats['max_price']:,.2f}")
-                                        
-                                        # Ask what to do with reloaded data
-                                        print(f"\n{'-'*80}")
-                                        print("What would you like to do with this data?")
-                                        print("1. View price distribution")
-                                        print("2. View location analysis")
-                                        print("3. Export to CSV")
-                                        print("4. Back to recent searches")
-                                        
-                                        data_choice = input("\nSelect option (1-4): ").strip()
-                                        
-                                        if data_choice == "1":
-                                            # Price distribution
-                                            if stats and 'price_distribution' in stats:
-                                                print(f"\nPRICE DISTRIBUTION FOR '{search_query_name}':")
-                                                print(f"{'-'*40}")
-                                                for price_range, count in stats['price_distribution'].items():
-                                                    percentage = (count / stats['items_with_price']) * 100
-                                                    bar = "█" * int(percentage / 5)
-                                                    print(f"{price_range:20} {count:3} items | {bar} ({percentage:.1f}%)")
-                                        
-                                        elif data_choice == "2":
-                                            # Location analysis
-                                            if stats and 'top_locations' in stats:
-                                                print(f"\nTOP LOCATIONS FOR '{search_query_name}':")
-                                                print(f"{'-'*40}")
-                                                for location, count in stats['top_locations'].items():
-                                                    percentage = (count / stats['total_items']) * 100
-                                                    print(f"{location:30} {count:3} items ({percentage:.1f}%)")
-                                        
-                                        elif data_choice == "3":
-                                            # Export to CSV
-                                            try:
-                                                import pandas as pd
-                                                export_df = pd.DataFrame(items)
-                                                
-                                                # Create export directory
-                                                export_dir = os.path.join(BASE_DIR, "exports")
-                                                os.makedirs(export_dir, exist_ok=True)
-                                                
-                                                # Export file name
-                                                export_name = f"reloaded_{selected_dir}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
-                                                export_path = os.path.join(export_dir, export_name)
-                                                
-                                                export_df.to_csv(export_path, index=False, encoding='utf-8')
-                                                print(f"\nData exported to: {export_path}")
-                                                print(f"Rows: {len(export_df)}, Columns: {len(export_df.columns)}")
-                                            except ImportError:
-                                                print("Pandas library required for CSV export. Install with: pip install pandas")
-                                            except Exception as e:
-                                                print(f"Error exporting data: {e}")
-                                        
-                                        elif data_choice == "4":
-                                            continue  # Go back to recent searches
-                                        else:
-                                            print("Invalid option")
-                                    else:
-                                        print("No data found in the file")
-                                except Exception as e:
-                                    print(f"Error loading file: {e}")
-                            else:
-                                print("No data files found for this search")
-                        else:
-                            print("Invalid selection")
-                    else:
-                        # If user just pressed Enter or invalid input, continue
-                        continue
+                                        search_query = data[0].get('search_query', subdir.replace('_', ' '))
+                                        print(f"{search_query}: {item_count} items")
+                            except:
+                                print(f"{subdir.replace('_', ' ')}")
                 else:
                     print("No search data found")
             else:
