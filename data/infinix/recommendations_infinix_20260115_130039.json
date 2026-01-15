@@ -1,0 +1,20 @@
+{
+  "search_query": "infinix",
+  "generated_at": "2026-01-15T13:00:39.814842",
+  "buying": {
+    "good_price_range": "2,953.08 - 31,369.46",
+    "bargain_price": "Below 2,953.08",
+    "high_price": "Above 31,369.46",
+    "fair_price": "Around 8,500.00",
+    "recommendation": "Look for items within 1 standard deviation of average"
+  },
+  "selling": {
+    "competitive_price": "8,500.00 - 31,369.46",
+    "premium_possible": "If condition is excellent and location is prime",
+    "quick_sale_price": "Around 10,057.17",
+    "recommendation": "Price competitively based on condition and location"
+  },
+  "condition_insights": {
+    "New": "Rare, can command premium price"
+  }
+}

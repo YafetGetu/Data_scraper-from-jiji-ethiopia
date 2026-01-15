@@ -1,0 +1,77 @@
+{
+  "search_query": "infinix",
+  "total_items": 120,
+  "items_with_price": 52,
+  "scraped_at": "2026-01-15T13:00:39.774568",
+  "average_price": 17161.27,
+  "median_price": 8500.0,
+  "min_price": 8000.0,
+  "max_price": 43999.0,
+  "price_range": 35999.0,
+  "std_dev": 14208.19,
+  "variance": 201872525.69,
+  "q1": 8000.0,
+  "q3": 13500.0,
+  "iqr": 5500.0,
+  "price_distribution": {
+    "5,000 - 10,000": 27,
+    "10,000 - 50,000": 25
+  },
+  "condition_distribution": {
+    "Unknown": 113,
+    "New": 7
+  },
+  "top_locations": {
+    "Location not specified": 78,
+    "Addis Ababa, Addis Ketema": 22,
+    "Addis Ababa, Nifas Silk-Lafto": 11,
+    "Addis Ababa, Bole": 3,
+    "Addis Ababa, Gullele": 3
+  },
+  "category_analysis": {
+    "Mobile Phones": {
+      "count": 41,
+      "avg_price": 17637.19,
+      "min_price": 8000.0,
+      "max_price": 43999.0
+    },
+    "Other": {
+      "count": 79,
+      "avg_price": 16399.8,
+      "min_price": 8000.0,
+      "max_price": 43999.0
+    }
+  },
+  "price_by_location": {
+    "Location not specified": {
+      "count": 25,
+      "avg_price": 16399.8,
+      "min_price": 8000.0,
+      "max_price": 43999.0
+    },
+    "Addis Ababa, Addis Ketema": {
+      "count": 12,
+      "avg_price": 28749.5,
+      "min_price": 13500.0,
+      "max_price": 43999.0
+    },
+    "Addis Ababa, Nifas Silk-Lafto": {
+      "count": 6,
+      "avg_price": 8500.0,
+      "min_price": 8500.0,
+      "max_price": 8500.0
+    },
+    "Addis Ababa, Bole": {
+      "count": 3,
+      "avg_price": 12799.0,
+      "min_price": 12799.0,
+      "max_price": 12799.0
+    },
+    "Addis Ababa, Gullele": {
+      "count": 3,
+      "avg_price": 8000.0,
+      "min_price": 8000.0,
+      "max_price": 8000.0
+    }
+  }
+}
