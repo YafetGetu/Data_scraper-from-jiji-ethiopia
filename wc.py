@@ -17,23 +17,20 @@ import random
 
 warnings.filterwarnings('ignore')
 
-# CONFIGURATION
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 ANALYSIS_DIR = os.path.join(DATA_DIR, "analysis")
 MODELS_DIR = os.path.join(BASE_DIR, "models")
 
-# Create directories
 os.makedirs(DATA_DIR, exist_ok=True)
 os.makedirs(ANALYSIS_DIR, exist_ok=True)
 os.makedirs(MODELS_DIR, exist_ok=True)
 
-# Scraper settings
 REQUEST_DELAY = 2
 MAX_RETRIES = 3
 TIMEOUT = 10
-MAX_PAGES = 5  # Maximum pages to scrape per search
-ITEMS_PER_PAGE = 40  # Jiji shows ~40 items per page
+MAX_PAGES = 5
+ITEMS_PER_PAGE = 40
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -49,14 +46,11 @@ HEADERS = {
     "Cache-Control": "max-age=0",
 }
 
-# PRICE PARSING
 def parse_price(price_text):
-    """Convert price text to numeric value"""
     if not price_text:
         return None
     
     try:
-        # Remove currency symbols, commas, and spaces
         cleaned = re.sub(r'[^\d.]', '', price_text)
         if cleaned:
             return float(cleaned)
@@ -65,7 +59,6 @@ def parse_price(price_text):
     return None
 
 def extract_currency(price_text):
-    """Extract currency from price text"""
     if not price_text:
         return 'ETB'
     
@@ -75,22 +68,17 @@ def extract_currency(price_text):
     elif 'ETB' in price_text or 'BIRR' in price_text:
         return 'ETB'
     else:
-        # Default to ETB for Jiji Ethiopia
         return 'ETB'
 
 def parse_date(date_str):
-    """Parse date string to datetime"""
     try:
         return datetime.fromisoformat(date_str.replace('Z', '+00:00'))
     except:
         return datetime.now()
 
-# CATEGORY CLASSIFICATION
 def categorize_item(title, search_query=None):
-    """Categorize items based on keywords"""
     title_lower = title.lower()
     
-    # Enhanced categories for Jiji Ethiopia
     categories = {
         'Mobile Phones': ['iphone', 'samsung', 'galaxy', 'huawei', 'xiaomi', 'redmi', 'nokia', 
                          'tecno', 'infinix', 'oppo', 'vivo', 'oneplus', 'smartphone', 'mobile', 'phone'],
@@ -120,15 +108,12 @@ def categorize_item(title, search_query=None):
     
     return 'Other'
 
-# WEB SCRAPER FOR JIJI SEARCH
 def fetch_page(url, retry_count=0):
-    """Fetch page with retry logic and random delays"""
     if retry_count >= MAX_RETRIES:
         print(f"  Max retries reached for {url}")
         return None
     
     try:
-        # Add random delay to avoid rate limiting
         delay = REQUEST_DELAY + random.uniform(0.5, 2.0)
         time.sleep(delay)
         
@@ -136,7 +121,6 @@ def fetch_page(url, retry_count=0):
         response = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
         response.raise_for_status()
         
-        # Check if we got a valid HTML response
         if 'text/html' in response.headers.get('Content-Type', ''):
             return response.text
         else:
@@ -145,17 +129,15 @@ def fetch_page(url, retry_count=0):
             
     except requests.exceptions.RequestException as e:
         print(f"  Request failed (attempt {retry_count + 1}/{MAX_RETRIES}): {e}")
-        time.sleep(REQUEST_DELAY * 2)  # Longer delay on failure
+        time.sleep(REQUEST_DELAY * 2)
         return fetch_page(url, retry_count + 1)
     except Exception as e:
         print(f"  Unexpected error: {e}")
         return None
 
 def extract_item_details(item_html, search_query, page_num, item_num):
-    """Extract detailed information from a single item listing"""
     soup = BeautifulSoup(item_html, 'lxml')
     
-    # Extract title
     title_elem = soup.find('div', class_=re.compile(r'.*title.*', re.I))
     if not title_elem:
         title_elem = soup.find('a', class_=re.compile(r'.*title.*', re.I))
@@ -166,7 +148,6 @@ def extract_item_details(item_html, search_query, page_num, item_num):
     
     title = title_elem.get_text(strip=True) if title_elem else "No Title"
     
-    # Extract price
     price_elem = soup.find('div', class_=re.compile(r'.*price.*', re.I))
     if not price_elem:
         price_elem = soup.find('div', class_=re.compile(r'amount', re.I))
@@ -177,7 +158,6 @@ def extract_item_details(item_html, search_query, page_num, item_num):
     price_value = parse_price(price_text)
     currency = extract_currency(price_text)
     
-    # Extract location
     location_elem = soup.find('div', class_=re.compile(r'.*location.*', re.I))
     if not location_elem:
         location_elem = soup.find('span', class_=re.compile(r'.*location.*', re.I))
@@ -186,11 +166,9 @@ def extract_item_details(item_html, search_query, page_num, item_num):
     
     location = location_elem.get_text(strip=True) if location_elem else "Location not specified"
     
-    # Extract link
     link_elem = soup.find('a', href=True)
     item_url = urljoin("https://jiji.com.et", link_elem['href']) if link_elem else ""
     
-    # Extract date posted
     date_elem = soup.find('div', class_=re.compile(r'.*date.*', re.I))
     if not date_elem:
         date_elem = soup.find('div', class_=re.compile(r'.*time.*', re.I))
@@ -199,11 +177,9 @@ def extract_item_details(item_html, search_query, page_num, item_num):
     
     date_posted = date_elem.get_text(strip=True) if date_elem else "Recently"
     
-    # Extract image URL
     img_elem = soup.find('img', src=True)
     image_url = img_elem['src'] if img_elem else ""
     
-    # Determine condition (new/used)
     title_lower = title.lower()
     if any(word in title_lower for word in ['new', 'brand new', 'fresh', 'sealed']):
         condition = "New"
@@ -212,7 +188,6 @@ def extract_item_details(item_html, search_query, page_num, item_num):
     else:
         condition = "Unknown"
     
-    # Extract seller type if possible
     seller_elem = soup.find('div', class_=re.compile(r'.*seller.*', re.I))
     seller_type = seller_elem.get_text(strip=True) if seller_elem else "Unknown"
     
@@ -237,7 +212,6 @@ def extract_item_details(item_html, search_query, page_num, item_num):
     }
 
 def scrape_jiji_search_page(search_query, page=1):
-    """Scrape a single page of Jiji search results"""
     encoded_query = quote_plus(search_query)
     url = f"https://jiji.com.et/search?query={encoded_query}&page={page}"
     
@@ -250,7 +224,6 @@ def scrape_jiji_search_page(search_query, page=1):
     
     soup = BeautifulSoup(html_content, 'lxml')
     
-    # Try different selectors for item containers
     item_selectors = [
         'div.b-list-advert__item',
         'div.b-list-advert-base',
@@ -268,7 +241,6 @@ def scrape_jiji_search_page(search_query, page=1):
             break
     
     if not items:
-        # Fallback: look for any div that looks like a listing
         all_divs = soup.find_all('div')
         items = [div for div in all_divs if 'advert' in str(div.get('class', ''))]
         if items:
@@ -276,7 +248,6 @@ def scrape_jiji_search_page(search_query, page=1):
     
     if not items:
         print(f"  No items found on page {page}")
-        # Save HTML for debugging
         debug_file = os.path.join(DATA_DIR, f"debug_page_{page}.html")
         with open(debug_file, 'w', encoding='utf-8') as f:
             f.write(html_content)
@@ -289,7 +260,6 @@ def scrape_jiji_search_page(search_query, page=1):
             item_data = extract_item_details(str(item_html), search_query, page, i)
             scraped_items.append(item_data)
             
-            # Show progress for first few items
             if i <= 3:
                 price_display = f"{item_data['price_value']:,.2f} {item_data['currency']}" if item_data['price_value'] else "Price N/A"
                 print(f"    {i}. {item_data['title'][:50]}... - {price_display}")
@@ -304,7 +274,6 @@ def scrape_jiji_search_page(search_query, page=1):
     return scraped_items
 
 def scrape_jiji_search(search_query, max_pages=MAX_PAGES):
-    """Scrape multiple pages from Jiji search results"""
     print(f"\n{'='*60}")
     print(f" SEARCHING JIJI FOR: '{search_query}'")
     print(f"{'='*60}")
@@ -320,20 +289,16 @@ def scrape_jiji_search(search_query, max_pages=MAX_PAGES):
         
         all_items.extend(page_items)
         
-        # Check if we should continue to next page
         if len(page_items) < ITEMS_PER_PAGE:
             print(f"  Fewer items than expected on page {page}, might be last page.")
             break
         
-        # Add delay between pages
         time.sleep(REQUEST_DELAY)
     
     print(f"\n Scraping complete: Found {len(all_items)} items for '{search_query}'")
     return all_items
 
-# DATA ANALYSIS FUNCTIONS
 def calculate_search_statistics(items, search_query):
-    """Calculate comprehensive statistics for search results"""
     if not items:
         return {
             "search_query": search_query,
@@ -341,7 +306,6 @@ def calculate_search_statistics(items, search_query):
             "message": "No items found"
         }
     
-    # Filter items with valid prices
     priced_items = [item for item in items if item['price_value'] is not None]
     prices = [item['price_value'] for item in priced_items]
     
@@ -353,7 +317,6 @@ def calculate_search_statistics(items, search_query):
     }
     
     if prices:
-        # Basic statistics
         stats.update({
             "average_price": round(statistics.mean(prices), 2),
             "median_price": round(statistics.median(prices), 2),
@@ -362,12 +325,10 @@ def calculate_search_statistics(items, search_query):
             "price_range": max(prices) - min(prices),
         })
         
-        # Advanced statistics
         if len(prices) > 1:
             stats["std_dev"] = round(statistics.stdev(prices), 2)
             stats["variance"] = round(statistics.variance(prices), 2)
         
-        # Quartiles
         if len(prices) >= 4:
             q1 = np.percentile(prices, 25)
             q3 = np.percentile(prices, 75)
@@ -377,7 +338,6 @@ def calculate_search_statistics(items, search_query):
                 "iqr": round(q3 - q1, 2)
             })
         
-        # Most common price ranges
         price_bins = defaultdict(int)
         for price in prices:
             if price < 1000:
@@ -401,21 +361,17 @@ def calculate_search_statistics(items, search_query):
         
         stats["price_distribution"] = dict(sorted(price_bins.items(), key=lambda x: x[1], reverse=True))
     
-    # Condition analysis
     conditions = defaultdict(int)
     for item in items:
         conditions[item.get('condition', 'Unknown')] += 1
     stats["condition_distribution"] = dict(conditions)
     
-    # Location analysis
     locations = defaultdict(int)
     for item in items:
         locations[item.get('location', 'Unknown')] += 1
-    # Get top 5 locations
     top_locations = sorted(locations.items(), key=lambda x: x[1], reverse=True)[:5]
     stats["top_locations"] = dict(top_locations)
     
-    # Category analysis
     categories = defaultdict(int)
     category_prices = defaultdict(list)
     for item in items:
@@ -439,13 +395,11 @@ def calculate_search_statistics(items, search_query):
     return stats
 
 def analyze_price_trends(items):
-    """Analyze price trends based on condition and other factors"""
     if not items:
         return {}
     
     analysis = {}
     
-    # New vs Used price comparison
     new_items = [item for item in items if item.get('condition') == 'New' and item['price_value']]
     used_items = [item for item in items if item.get('condition') == 'Used' and item['price_value']]
     
@@ -464,7 +418,6 @@ def analyze_price_trends(items):
             ) if statistics.mean(used_prices) > 0 else 0
         }
     
-    # Price by location (top locations)
     location_prices = defaultdict(list)
     for item in items:
         if item['price_value'] and item.get('location'):
@@ -486,7 +439,6 @@ def analyze_price_trends(items):
     return analysis
 
 def generate_recommendations(stats):
-    """Generate buying/selling recommendations based on statistics"""
     if not stats or stats.get('total_items', 0) == 0:
         return {"message": "Insufficient data for recommendations"}
     
@@ -500,7 +452,6 @@ def generate_recommendations(stats):
         median_price = stats.get('median_price', avg_price)
         std_dev = stats.get('std_dev', 0)
         
-        # Buying recommendations
         recommendations['buying'] = {
             "good_price_range": f"{avg_price - std_dev:,.2f} - {avg_price + std_dev:,.2f}",
             "bargain_price": f"Below {avg_price - std_dev:,.2f}",
@@ -509,7 +460,6 @@ def generate_recommendations(stats):
             "recommendation": "Look for items within 1 standard deviation of average"
         }
         
-        # Selling recommendations
         recommendations['selling'] = {
             "competitive_price": f"{median_price:,.2f} - {avg_price + std_dev:,.2f}",
             "premium_possible": f"If condition is excellent and location is prime",
@@ -517,7 +467,6 @@ def generate_recommendations(stats):
             "recommendation": "Price competitively based on condition and location"
         }
     
-    # Condition-based recommendations
     if 'condition_distribution' in stats:
         conditions = stats['condition_distribution']
         total = sum(conditions.values())
@@ -540,9 +489,7 @@ def generate_recommendations(stats):
     
     return recommendations
 
-# DATA SAVING AND EXPORT
 def save_search_results(items, search_query, stats=None, recommendations=None):
-    """Save search results and analysis to files"""
     if not items:
         print(f"\n No data to save for '{search_query}'")
         return None
@@ -550,34 +497,28 @@ def save_search_results(items, search_query, stats=None, recommendations=None):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     query_slug = re.sub(r'[^\w\s-]', '', search_query).replace(' ', '_').lower()[:50]
     
-    # Create query-specific directory
     query_dir = os.path.join(DATA_DIR, query_slug)
     os.makedirs(query_dir, exist_ok=True)
     
-    # Save raw data as JSON
     json_file = os.path.join(query_dir, f"{query_slug}_{timestamp}.json")
     with open(json_file, "w", encoding="utf-8") as f:
         json.dump(items, f, ensure_ascii=False, indent=2)
     
-    # Save as CSV
     csv_file = os.path.join(query_dir, f"{query_slug}_{timestamp}.csv")
     if items:
         df = pd.DataFrame(items)
         df.to_csv(csv_file, index=False, encoding='utf-8')
     
-    # Save statistics
     if stats:
         stats_file = os.path.join(query_dir, f"stats_{query_slug}_{timestamp}.json")
         with open(stats_file, "w", encoding="utf-8") as f:
             json.dump(stats, f, ensure_ascii=False, indent=2)
     
-    # Save recommendations
     if recommendations:
         rec_file = os.path.join(query_dir, f"recommendations_{query_slug}_{timestamp}.json")
         with open(rec_file, "w", encoding="utf-8") as f:
             json.dump(recommendations, f, ensure_ascii=False, indent=2)
     
-    # Generate and save report
     report_file = generate_comprehensive_report(items, stats, recommendations, query_slug, timestamp)
     
     print(f"\n Data saved to: {query_dir}")
@@ -597,7 +538,6 @@ def save_search_results(items, search_query, stats=None, recommendations=None):
     }
 
 def generate_comprehensive_report(items, stats, recommendations, query_slug, timestamp):
-    """Generate a comprehensive text report"""
     report_file = os.path.join(DATA_DIR, query_slug, f"report_{query_slug}_{timestamp}.txt")
     
     report = f"""
@@ -639,7 +579,6 @@ Standard Deviation:{stats.get('std_dev', 0):,.2f} {items[0]['currency'] if items
 Interquartile Range:  {stats['iqr']:,.2f} {items[0]['currency'] if items else 'ETB'}
 """
     
-    # Price distribution
     if stats and 'price_distribution' in stats:
         report += f"""
  PRICE DISTRIBUTION:
@@ -649,7 +588,6 @@ Interquartile Range:  {stats['iqr']:,.2f} {items[0]['currency'] if items else 'E
             percentage = (count / stats['items_with_price']) * 100
             report += f"{price_range}: {count} items ({percentage:.1f}%)\n"
     
-    # Condition distribution
     if stats and 'condition_distribution' in stats:
         report += f"""
  CONDITION DISTRIBUTION:
@@ -660,7 +598,6 @@ Interquartile Range:  {stats['iqr']:,.2f} {items[0]['currency'] if items else 'E
             percentage = (count / total) * 100
             report += f"{condition}: {count} items ({percentage:.1f}%)\n"
     
-    # Top locations
     if stats and 'top_locations' in stats:
         report += f"""
 📍 TOP LOCATIONS:
@@ -670,7 +607,6 @@ Interquartile Range:  {stats['iqr']:,.2f} {items[0]['currency'] if items else 'E
             percentage = (count / stats['total_items']) * 100
             report += f"{location}: {count} items ({percentage:.1f}%)\n"
     
-    # Category analysis
     if stats and 'category_analysis' in stats:
         report += f"""
 🏷️ CATEGORY ANALYSIS:
@@ -682,7 +618,6 @@ Interquartile Range:  {stats['iqr']:,.2f} {items[0]['currency'] if items else 'E
             report += f"  Avg Price: {cat_stats['avg_price']:,.2f} {items[0]['currency'] if items else 'ETB'}\n"
             report += f"  Price Range: {cat_stats['min_price']:,.2f} - {cat_stats['max_price']:,.2f}\n"
     
-    # Recommendations
     if recommendations:
         report += f"""
 {'='*80}
@@ -710,7 +645,6 @@ Quick Sale Price:    {recommendations['selling']['quick_sale_price']}
 Advice:              {recommendations['selling']['recommendation']}
 """
     
-    # Sample listings
     report += f"""
 {'='*80}
 SAMPLE LISTINGS (First 10)
@@ -738,9 +672,7 @@ Generated by Jiji Ethiopia Scraper
     
     return report_file
 
-# INTERACTIVE DISPLAY
 def display_search_summary(items, stats, search_query):
-    """Display a summary of search results in the console"""
     if not items:
         print(f"\n❌ No items found for '{search_query}'")
         return
@@ -774,30 +706,24 @@ def display_search_summary(items, stats, search_query):
         for location, count in list(stats['top_locations'].items())[:3]:
             print(f"   {location}: {count} items")
     
-    # Display sample items
     print(f"\n SAMPLE LISTINGS:")
     for i, item in enumerate(items[:5], 1):
         price_display = f"{item['price_value']:,.2f} {item['currency']}" if item['price_value'] else "Price N/A"
         print(f"   {i}. {item['title'][:60]}...")
         print(f"      {price_display} | {item.get('location', 'N/A')} | {item.get('condition', 'N/A')}")
 
-# MAIN EXECUTION
-# MAIN EXECUTION
-# MAIN EXECUTION
 def main():
-    """Main execution function"""
     print(f"""
 {'='*80}
  JIJI ETHIOPIA SMART SEARCH SCRAPER
 {'='*80}
-Scrape and analyze prices from Jiji Ethiopia search results
 """)
     
     while True:
         print(f"\n{'='*80}")
         print("MAIN MENU")
         print(f"{'='*80}")
-        print("1. Search for items (e.g., 'iphone 12', 'toyota yaris')")
+        print("1. Search for items")
         print("2. View recent searches")
         print("3. Export data")
         print("4. Exit")
@@ -805,14 +731,12 @@ Scrape and analyze prices from Jiji Ethiopia search results
         choice = input("\nSelect option (1-4): ").strip()
         
         if choice == "1":
-            # Get search query
-            search_query = input("\nEnter search query (e.g., 'iphone 12', 'toyota yaris'): ").strip()
+            search_query = input("\nEnter search query: ").strip()
             
             if not search_query:
                 print("Please enter a search query")
                 continue
             
-            # Get number of pages to scrape
             try:
                 pages_input = input(f"Pages to scrape (1-{MAX_PAGES}, default=3): ").strip()
                 pages = int(pages_input) if pages_input else 3
@@ -822,31 +746,24 @@ Scrape and analyze prices from Jiji Ethiopia search results
             
             print(f"\nSearching for '{search_query}' ({pages} pages)...")
             
-            # Scrape data
             items = scrape_jiji_search(search_query, pages)
             
             if not items:
                 print(f"\nNo items found for '{search_query}'")
                 continue
             
-            # Calculate statistics
             stats = calculate_search_statistics(items, search_query)
             
-            # Analyze price trends
             trends = analyze_price_trends(items)
             if trends:
                 stats.update(trends)
             
-            # Generate recommendations
             recommendations = generate_recommendations(stats)
             
-            # Display summary
             display_search_summary(items, stats, search_query)
             
-            # Save data
             saved_files = save_search_results(items, search_query, stats, recommendations)
             
-            # Ask what to do next
             while True:
                 print(f"\n{'='*80}")
                 print(f"OPTIONS FOR '{search_query}'")
@@ -861,7 +778,6 @@ Scrape and analyze prices from Jiji Ethiopia search results
                 sub_choice = input("\nSelect option (1-6): ").strip()
                 
                 if sub_choice == "1":
-                    # View report file
                     if saved_files and os.path.exists(saved_files['report_file']):
                         with open(saved_files['report_file'], 'r', encoding='utf-8') as f:
                             print(f"\n{'-'*80}")
@@ -872,17 +788,15 @@ Scrape and analyze prices from Jiji Ethiopia search results
                         print("Report file not found")
                 
                 elif sub_choice == "2":
-                    # Price distribution
                     if stats and 'price_distribution' in stats:
                         print(f"\nPRICE DISTRIBUTION FOR '{search_query}':")
                         print(f"{'-'*40}")
                         for price_range, count in stats['price_distribution'].items():
                             percentage = (count / stats['items_with_price']) * 100
-                            bar = "█" * int(percentage / 5)  # Each █ represents 5%
+                            bar = "█" * int(percentage / 5)
                             print(f"{price_range:20} {count:3} items | {bar} ({percentage:.1f}%)")
                 
                 elif sub_choice == "3":
-                    # Location analysis
                     if stats and 'top_locations' in stats:
                         print(f"\nTOP LOCATIONS FOR '{search_query}':")
                         print(f"{'-'*40}")
@@ -891,7 +805,6 @@ Scrape and analyze prices from Jiji Ethiopia search results
                             print(f"{location:30} {count:3} items ({percentage:.1f}%)")
                 
                 elif sub_choice == "4":
-                    # Filter results
                     print(f"\nFILTER RESULTS FOR '{search_query}':")
                     print(f"{'='*80}")
                     
@@ -907,11 +820,9 @@ Scrape and analyze prices from Jiji Ethiopia search results
                         
                         filter_choice = input("\nSelect filter option (1-7): ").strip()
                         
-                        # Store filtered items
                         filtered_items = items.copy()
                         
                         if filter_choice == "1":
-                            # Price filter
                             print(f"\nPRICE FILTER:")
                             print(f"{'-'*40}")
                             min_price_input = input("Minimum price in ETB (or press Enter for any): ").strip()
@@ -931,12 +842,10 @@ Scrape and analyze prices from Jiji Ethiopia search results
                                     print("Minimum price cannot be greater than maximum price")
                                     continue
                                 
-                                # Apply price filter
                                 temp_filtered = []
                                 for item in filtered_items:
                                     price = item.get('price_etb', 0)
                                     if isinstance(price, str):
-                                        # Try to extract numeric price from string
                                         try:
                                             price_num = float(''.join(filter(str.isdigit, price)))
                                         except:
@@ -956,11 +865,9 @@ Scrape and analyze prices from Jiji Ethiopia search results
                                 print("Invalid price format. Please enter numbers only.")
                         
                         elif filter_choice == "2":
-                            # Location filter
                             print(f"\nLOCATION FILTER:")
                             print(f"{'-'*40}")
                             
-                            # Get unique locations
                             locations = set()
                             for item in filtered_items:
                                 location = item.get('location', 'Unknown')
@@ -970,7 +877,7 @@ Scrape and analyze prices from Jiji Ethiopia search results
                             if locations:
                                 print("Available locations:")
                                 loc_list = sorted(list(locations))
-                                for i, loc in enumerate(loc_list[:20], 1):  # Show first 20
+                                for i, loc in enumerate(loc_list[:20], 1):
                                     print(f"{i}. {loc}")
                                 if len(loc_list) > 20:
                                     print(f"... and {len(loc_list) - 20} more locations")
@@ -978,7 +885,6 @@ Scrape and analyze prices from Jiji Ethiopia search results
                                 location_input = input("\nEnter location name (or part of name, press Enter to skip): ").strip()
                                 
                                 if location_input:
-                                    # Filter by location
                                     temp_filtered = []
                                     for item in filtered_items:
                                         location = item.get('location', '')
@@ -993,7 +899,6 @@ Scrape and analyze prices from Jiji Ethiopia search results
                                 print("No location data available")
                         
                         elif filter_choice == "3":
-                            # Condition filter
                             print(f"\nCONDITION FILTER:")
                             print(f"{'-'*40}")
                             print("1. New items only")
@@ -1005,17 +910,15 @@ Scrape and analyze prices from Jiji Ethiopia search results
                             if condition_choice in ["1", "2"]:
                                 condition_type = "New" if condition_choice == "1" else "Used"
                                 
-                                # Filter by condition
                                 temp_filtered = []
                                 for item in filtered_items:
                                     title = item.get('title', '').lower()
                                     description = item.get('description', '').lower()
                                     
-                                    # Simple keyword matching for condition
-                                    if condition_choice == "1":  # New
+                                    if condition_choice == "1":
                                         if 'new' in title or 'new' in description or 'brand new' in title or 'brand new' in description:
                                             temp_filtered.append(item)
-                                    elif condition_choice == "2":  # Used
+                                    elif condition_choice == "2":
                                         if 'used' in title or 'used' in description or 'second hand' in title or 'second hand' in description:
                                             temp_filtered.append(item)
                                 
@@ -1025,10 +928,8 @@ Scrape and analyze prices from Jiji Ethiopia search results
                                 print("No condition filter applied")
                         
                         elif filter_choice == "4":
-                            # Date filter
                             print(f"\nDATE FILTER:")
                             print(f"{'-'*40}")
-                            print("Filter items by how recently they were posted")
                             print("1. Last 24 hours")
                             print("2. Last 7 days")
                             print("3. Last 30 days")
@@ -1040,13 +941,9 @@ Scrape and analyze prices from Jiji Ethiopia search results
                                 days_map = {"1": 1, "2": 7, "3": 30}
                                 max_days_old = days_map[date_choice]
                                 
-                                # Note: This assumes your items have a 'date_posted' field
-                                # You might need to adjust this based on your actual data structure
                                 temp_filtered = []
                                 for item in filtered_items:
                                     date_posted = item.get('date_posted', '')
-                                    # For now, we'll just pass all items since we don't have real dates
-                                    # In a real implementation, you would parse and compare dates
                                     temp_filtered.append(item)
                                 
                                 filtered_items = temp_filtered
@@ -1056,10 +953,8 @@ Scrape and analyze prices from Jiji Ethiopia search results
                                 print("No date filter applied")
                         
                         elif filter_choice == "5":
-                            # Multiple filters
                             print(f"\nAPPLY MULTIPLE FILTERS:")
                             print(f"{'-'*40}")
-                            print("You can combine multiple filters:")
                             print("P - Apply price filter")
                             print("L - Apply location filter")
                             print("C - Apply condition filter")
@@ -1078,14 +973,12 @@ Scrape and analyze prices from Jiji Ethiopia search results
                                 print("All filters reset")
                         
                         elif filter_choice == "6":
-                            # View filtered results
                             if len(filtered_items) == 0:
                                 print("No items match the current filters")
                             else:
                                 print(f"\nFILTERED RESULTS ({len(filtered_items)} items):")
                                 print(f"{'='*80}")
                                 
-                                # Show first 10 filtered items
                                 for i, item in enumerate(filtered_items[:10], 1):
                                     title = item.get('title', 'No title')[:50]
                                     price = item.get('price_etb', 'N/A')
@@ -1097,7 +990,6 @@ Scrape and analyze prices from Jiji Ethiopia search results
                                 if len(filtered_items) > 10:
                                     print(f"... and {len(filtered_items) - 10} more items")
                                 
-                                # Show filtered statistics
                                 if filtered_items:
                                     filtered_stats = calculate_search_statistics(filtered_items, f"{search_query} (Filtered)")
                                     print(f"\nFILTERED STATISTICS:")
@@ -1109,7 +1001,6 @@ Scrape and analyze prices from Jiji Ethiopia search results
                                     print(f"Maximum price: ETB {filtered_stats['max_price']:,.2f}")
                         
                         elif filter_choice == "7":
-                            # Clear filters and return
                             print("Returning to main options...")
                             break
                         
@@ -1117,16 +1008,15 @@ Scrape and analyze prices from Jiji Ethiopia search results
                             print("Invalid filter option")
                 
                 elif sub_choice == "5":
-                    break  # Break inner loop for new search
+                    break
                 
                 elif sub_choice == "6":
-                    return  # Return to main menu
+                    return
                 
                 else:
                     print("Invalid option")
         
         elif choice == "2":
-            # View recent searches
             print(f"\nRECENT SEARCHES IN DATA DIRECTORY:")
             print(f"{'='*80}")
             
@@ -1134,7 +1024,7 @@ Scrape and analyze prices from Jiji Ethiopia search results
                 subdirs = [d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d))]
                 
                 if subdirs:
-                    for subdir in subdirs[-10:]:  # Show last 10 searches
+                    for subdir in subdirs[-10:]:
                         subdir_path = os.path.join(DATA_DIR, subdir)
                         files = os.listdir(subdir_path) if os.path.exists(subdir_path) else []
                         json_files = [f for f in files if f.endswith('.json') and 'stats' not in f]
@@ -1157,7 +1047,6 @@ Scrape and analyze prices from Jiji Ethiopia search results
                 print("Data directory not found")
         
         elif choice == "3":
-            # Export data
             print(f"\nAVAILABLE DATA FOR EXPORT:")
             print(f"{'='*80}")
             
@@ -1174,28 +1063,23 @@ Scrape and analyze prices from Jiji Ethiopia search results
                             selected_dir = subdirs[export_choice - 1]
                             dir_path = os.path.join(DATA_DIR, selected_dir)
                             
-                            # Find all CSV files in the directory
                             csv_files = [f for f in os.listdir(dir_path) if f.endswith('.csv')]
                             
                             if csv_files:
                                 latest_csv = max([os.path.join(dir_path, f) for f in csv_files], 
                                                key=os.path.getctime)
                                 
-                                # Create export directory
                                 export_dir = os.path.join(BASE_DIR, "exports")
                                 os.makedirs(export_dir, exist_ok=True)
                                 
-                                # Export file name
                                 export_name = f"jiji_export_{selected_dir}_{datetime.now().strftime('%Y%m%d')}.csv"
                                 export_path = os.path.join(export_dir, export_name)
                                 
-                                # Copy the file
                                 import shutil
                                 shutil.copy2(latest_csv, export_path)
                                 
                                 print(f"\nData exported to: {export_path}")
                                 
-                                # Show preview
                                 try:
                                     df = pd.read_csv(export_path)
                                     print(f"Rows: {len(df)}, Columns: {len(df.columns)}")
